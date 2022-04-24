@@ -12,12 +12,12 @@
     <tr>
       <th>Name</th>
       <th>Last name</th>
-      <th>Age</th>
+      <th>Mail</th>
     </tr>
     <tr th:each="msg : ${userList}">
       <th th:text="${msg.getName()}"></th>
       <th th:text="${msg.getLastName()}"></th>
-      <th th:text="${msg.getAge()}"></th>
+      <th th:text="${msg.getMail()}"></th>
       <td>
         <a th:href="@{/{id}/edit(id=${msg.getId()})}">Edit</a>
       </td>
@@ -37,7 +37,7 @@
       Input last name:<input name="lastName" type="text" size="40">
     </p>
     <p>
-      Input age:      <input name="age" type="text" size="40">
+      Input age:      <input name="mail" type="text" size="40">
     </p>
     <p><input type="submit" value="Send">
       <input type="reset" value="Clear"></p>

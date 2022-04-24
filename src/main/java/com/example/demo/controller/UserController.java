@@ -27,7 +27,7 @@ public class UserController {
     public String add(@ModelAttribute("user") User user,
                       @RequestParam("name") String name,
                       @RequestParam("lastName") String lastName,
-                      @RequestParam("age") String age) {
+                      @RequestParam("mail") String mail) {
         userService.addUser(user);
         return "redirect:/";
     }
