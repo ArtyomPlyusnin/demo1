@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.model.User;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -40,5 +41,13 @@ public class UserDaoImpl implements UserDao{
     @Override
     public List<User> listUsers() {
         return entityManager.createQuery("FROM User", User.class).getResultList();
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return entityManager.createQuery(
+                        "SELECT user FROM User user join fetch  user.roles WHERE user.username =:username", User.class)
+                .setParameter("username", username)
+                .getSingleResult();
     }
 }

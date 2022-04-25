@@ -6,44 +6,28 @@
   <title>User list</title>
 </head>
 <body>
-<h1>User list</h1>
-<div>
-  <table border="1">
-    <tr>
-      <th>Name</th>
-      <th>Last name</th>
-      <th>Mail</th>
-    </tr>
-    <tr th:each="msg : ${userList}">
-      <th th:text="${msg.getName()}"></th>
-      <th th:text="${msg.getLastName()}"></th>
-      <th th:text="${msg.getMail()}"></th>
-      <td>
-        <a th:href="@{/{id}/edit(id=${msg.getId()})}">Edit</a>
-      </td>
-      <td>
-        <a th:href="@{/{id}/remove(id=${msg.getId()})}">Delete</a>
-      </td>
+<h3>Ваши данные:</h3>
+<table border="1">
+  <tr>
+    <th>Name</th>
+    <th>Last name</th>
+    <th>Mail</th>
+    <th>Authority</th>
+    <th>Username</th>
 
-    </tr>
-  </table>
-  <form method="post" action="/">
-    <h2>New User:</h2>
+  </tr>
+  <tr>
+    <th th:text="${user.getName()}"></th>
+    <th th:text="${user.getLastName()}"></th>
+    <th th:text="${user.getMail()}"></th>
+    <th th:text="${user.getAuthorities()}"></th>
+    <th th:text="${user.getUsername()}"></th>
 
-    <p>
-      Input name:     <input name="name" type="text" size="40">
-    </p>
-    <p>
-      Input last name:<input name="lastName" type="text" size="40">
-    </p>
-    <p>
-      Input mail:      <input name="mail" type="text" size="40">
-    </p>
-    <p><input type="submit" value="Send">
-      <input type="reset" value="Clear"></p>
+  </tr>
+</table>
+<h3>
+  <a th:href="@{'/logout'}">Выйти</a>
+</h3>
 
-  </form>
-
-</div>
 </body>
 </html>

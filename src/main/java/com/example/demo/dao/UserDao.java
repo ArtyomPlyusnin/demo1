@@ -6,6 +6,7 @@ import com.example.demo.model.User;
 import java.util.List;
 
 public interface UserDao {
+
      void addUser(User user);
 
      User getUserById(int id);
@@ -15,4 +16,6 @@ public interface UserDao {
      void removeUserById(int id);
 
      List<User> listUsers();
+
+     User findByUsername(String username);
 }

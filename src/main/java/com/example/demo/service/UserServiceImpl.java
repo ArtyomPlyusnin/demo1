@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.dao.UserDao;
 import com.example.demo.model.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,4 +47,17 @@ public class UserServiceImpl implements UserService {
     public List<User> listUsers() {
         return userDao.listUsers();
     }
+
+    @Transactional
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        User user = userDao.findByUsername(username);
+        if (user == null){
+            throw  new UsernameNotFoundException(String.format("User '%s' не найден", username));
+        }
+
+        return user;
+    }
+
 }
