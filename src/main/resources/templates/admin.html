@@ -6,7 +6,6 @@
     <title>Admin</title>
 </head>
 <body>
-<div>
     <h3>Список пользователей:</h3>
 <table border="1">
     <tr>
@@ -14,17 +13,16 @@
         <th>Last name</th>
         <th>Mail</th>
     </tr>
-    <tr th:each="msg:${listUsers}">
-        <th th:text="${msg.getName()}"></th>
-        <th th:text="${msg.getLastName()}"></th>
-        <th th:text="${msg.getMail()}"></th>
+    <tr th:each="usr:${users}">
+        <th th:text="${usr.getName()}"></th>
+        <th th:text="${usr.getLastName()}"></th>
+        <th th:text="${usr.getMail()}"></th>
         <td>
-            <a th:href="@{/{id}/edit(id=${msg.getId()})}">Edit</a>
+            <a th:href="@{/{id}/edit(id=${usr.getId()})}">Edit</a>
         </td>
         <td>
-            <a th:href="@{/{id}/remove(id=${msg.getId()})}">Delete</a>
+            <a th:href="@{/{id}/remove(id=${usr.getId()})}">Delete</a>
         </td>
-
     </tr>
 </table>
 <h3>Добавить нового пользователя:</h3>
@@ -43,12 +41,8 @@
         <input type="reset" value="Clear"></p>
 
 </form>
-
-
-
     <h3>
     <a th:href="@{'/logout'}">Выйти</a>
     </h3>
-</div>
 </body>
 </html>

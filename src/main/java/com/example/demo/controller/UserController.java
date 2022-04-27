@@ -26,6 +26,9 @@ public class UserController {
         model.addAttribute("users",userService.listUsers());
         return "index";
     }
+//    public String printUsers() {
+//        return "test";
+//    }
 
 
 //    @GetMapping("/user")
@@ -48,7 +51,7 @@ public class UserController {
 
     @GetMapping("/admin")
         public String crud(Model model) {
-        model.addAttribute("listUsers",userService.listUsers());
+        model.addAttribute("users",userService.listUsers());
             return "admin";
         }
 
