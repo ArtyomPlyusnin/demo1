@@ -9,11 +9,13 @@
     <h3>Список пользователей:</h3>
 <table border="1">
     <tr>
+        <th>ID</th>
         <th>Name</th>
         <th>Last name</th>
         <th>Mail</th>
     </tr>
     <tr th:each="usr:${users}">
+        <th th:text="${usr.getId()}"></th>
         <th th:text="${usr.getName()}"></th>
         <th th:text="${usr.getLastName()}"></th>
         <th th:text="${usr.getMail()}"></th>
@@ -37,6 +39,13 @@
     <p>
         Input mail:      <input name="mail" type="text" size="40">
     </p>
+    <p>
+        Input username:      <input name="username" type="text" size="40">
+    </p>
+    <p>
+        Input password:      <input name="password" type="text" size="40">
+    </p>
+
     <p><input type="submit" value="Send">
         <input type="reset" value="Clear"></p>
 

@@ -44,18 +44,20 @@ public class UserController {
     public String add(@ModelAttribute("user") User user,
                       @RequestParam("name") String name,
                       @RequestParam("lastName") String lastName,
-                      @RequestParam("mail") String mail) {
+                      @RequestParam("mail") String mail,
+                      @RequestParam("username") String userName,
+                      @RequestParam("password") String password) {
         userService.addUser(user);
-        return "redirect:/admin";
+        return "redirect:/admin/";
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/admin/")
         public String crud(Model model) {
         model.addAttribute("users",userService.listUsers());
             return "admin";
         }
 
-    @GetMapping("/user")
+    @GetMapping("/user/")
     public String user(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("user", userService.getUserById(user.getId()));
         return "user";
@@ -65,7 +67,7 @@ public class UserController {
     @GetMapping("/{id}/remove")
     public String remove(@PathVariable("id") int id) {
         userService.removeUserById(id);
-        return "redirect:/admin";
+        return "redirect:/admin/";
     }
 
     @GetMapping("/index")
@@ -82,6 +84,6 @@ public class UserController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user,  @PathVariable("id") int id) {
         userService.updateUser(user);
-        return "redirect:/admin";
+        return "redirect:/admin/";
     }
 }
