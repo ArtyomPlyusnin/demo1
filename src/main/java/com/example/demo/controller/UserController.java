@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @Controller
+@RequestMapping("/")
 public class UserController {
 
     private final UserService userService;
@@ -21,23 +22,20 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
-    public String printUsers(Model model) {
-        model.addAttribute("users",userService.listUsers());
+    @GetMapping()
+    public String printUsers(Model model, Principal principal) {
+        if (principal != null) {
+            model.addAttribute("username", principal.getName());
+        }
+        model.addAttribute("users", userService.listUsers());
         return "index";
     }
-//    public String printUsers() {
-//        return "test";
-//    }
 
-
-//    @GetMapping("/user")
-//    public String getUser(@AuthenticationPrincipal User user, Model model) {
-//        model.addAttribute("roles", userService.getUserByEmail(user.getUsername()).getRoles());
-//        model.addAttribute("user", userService.getUserByEmail(user.getUsername()));
-//        return "index";
-//    }
-
+    @GetMapping("/user")
+    public String user(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", userService.getUserById(user.getId()));
+        return "user";
+    }
 
 
     @PostMapping
@@ -51,23 +49,18 @@ public class UserController {
         return "redirect:/admin/";
     }
 
-    @GetMapping("/admin/")
+    @GetMapping("/admin")
         public String crud(Model model) {
         model.addAttribute("users",userService.listUsers());
             return "admin";
         }
 
-    @GetMapping("/user/")
-    public String user(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("user", userService.getUserById(user.getId()));
-        return "user";
-    }
 
 
     @GetMapping("/{id}/remove")
     public String remove(@PathVariable("id") int id) {
         userService.removeUserById(id);
-        return "redirect:/admin/";
+        return "redirect:/admin";
     }
 
     @GetMapping("/index")
@@ -84,6 +77,6 @@ public class UserController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user,  @PathVariable("id") int id) {
         userService.updateUser(user);
-        return "redirect:/admin/";
+        return "redirect:/admin";
     }
 }

@@ -17,5 +17,5 @@ public interface UserDao {
 
      List<User> listUsers();
 
-     User findByUsername(String username);
+     User loadUserByUsername(String username);
 }

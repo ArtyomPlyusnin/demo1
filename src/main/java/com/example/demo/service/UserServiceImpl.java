@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userDao.findByUsername(username);
+        User user = userDao.loadUserByUsername(username);
         if (user == null){
             throw  new UsernameNotFoundException(String.format("User '%s' не найден", username));
         }

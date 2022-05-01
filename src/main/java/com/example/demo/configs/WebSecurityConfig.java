@@ -27,56 +27,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http
-                .cors().disable()
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/user").hasAnyRole("USER","ADMIN")
-                .anyRequest()
-                .authenticated()
+        http.authorizeRequests()
+//                .antMatchers("/","/login").permitAll()
+                .antMatchers( "/admin").hasRole("ADMIN")
+                .antMatchers("/user").hasAnyRole("ADMIN","USER")
+                .anyRequest().authenticated()
                 .and()
+                .csrf().disable()
                 .formLogin().successHandler(successUserHandler)
                 .and()
                 .logout()
                 .logoutSuccessUrl("/")
                 .permitAll();
-
-//        http.authorizeRequests()
-//                .antMatchers("/edit/**", "/new", "/delete/**", "/admin")
-//                .hasRole("ADMIN")
-//                .antMatchers("/show/**","/user")
-//                .hasAnyRole("ADMIN","USER")
-//                .antMatchers("/","/login")
-//                .permitAll()
-//                .and()
-//                .formLogin()
-//                .successHandler(successUserHandler)
-//                .and()
-//                .logout()
-//                .permitAll();
     }
-
-    // аутентификация inMemory
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//        UserDetails admin =
-//                User.withDefaultPasswordEncoder()
-//                        .username("admin")
-//                        .password("admin")
-//                        .roles("ADMIN")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user, admin);
-//    }
-    /////////////////////////////////////////////////
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
