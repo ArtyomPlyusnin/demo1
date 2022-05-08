@@ -21,4 +21,5 @@ public interface UserService extends UserDetailsService {
      List<User> listUsers();
 
      UserDetails loadUserByUsername (String username) throws UsernameNotFoundException;
+
 }

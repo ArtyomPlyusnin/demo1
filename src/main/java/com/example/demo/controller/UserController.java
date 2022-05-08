@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.User;
+import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -16,67 +16,66 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RoleService roleService) {
         this.userService = userService;
-    }
-
-    @GetMapping()
-    public String printUsers(Model model, Principal principal) {
-        if (principal != null) {
-            model.addAttribute("username", principal.getName());
-        }
-        model.addAttribute("users", userService.listUsers());
-        return "index";
+        this.roleService = roleService;
     }
 
     @GetMapping("/user")
-    public String user(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("user", userService.getUserById(user.getId()));
+    public String user(Principal principal, Model model) {
+        User user = (User) userService.loadUserByUsername(principal.getName());
+        model.addAttribute("roles", user.getRoles());
+        model.addAttribute("user",  user);
         return "user";
     }
 
 
-    @PostMapping
-    public String add(@ModelAttribute("user") User user,
-                      @RequestParam("name") String name,
-                      @RequestParam("lastName") String lastName,
-                      @RequestParam("mail") String mail,
-                      @RequestParam("username") String userName,
-                      @RequestParam("password") String password) {
-        userService.addUser(user);
-        return "redirect:/admin/";
-    }
 
     @GetMapping("/admin")
-        public String crud(Model model) {
-        model.addAttribute("users",userService.listUsers());
+        public String crud(Principal principal, Model model) {
+        User user = (User) userService.loadUserByUsername(principal.getName());
+        model.addAttribute("user", user);
+        model.addAttribute("roles", roleService.index());
+        model.addAttribute("users", userService.listUsers());
             return "admin";
         }
 
 
 
-    @GetMapping("/{id}/remove")
+
+    @GetMapping("/admin/{id}/remove")
     public String remove(@PathVariable("id") int id) {
         userService.removeUserById(id);
         return "redirect:/admin";
     }
 
-    @GetMapping("/index")
-    public String index(Model model){
-        model.addAttribute(userService.listUsers());
-        return "index";}
-
-    @GetMapping("/{id}/edit")
-    public String edit(ModelMap model, @PathVariable("id") int id) {
-        model.addAttribute("user", userService.getUserById(id));
-        return "user-edit";
+    @PostMapping("/admin")
+    public String add(@ModelAttribute("user") User user,
+                      @RequestParam(value = "nameRoles") String[] roles) {
+        user.setRoles(roleService.getSetOfRoles(roles));
+        userService.addUser(user);
+        return "redirect:/admin";
     }
 
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user,  @PathVariable("id") int id) {
+    @GetMapping("/admin/{id}/edit")
+    public String edit(@ModelAttribute("user") User user,
+                   ModelMap model,
+                   @PathVariable("id") int id,
+                   @RequestParam(value = "editRoles") String[] roles) {
+        user.setRoles(roleService.getSetOfRoles(roles));
+     model.addAttribute("roles", roleService.index());
+     model.addAttribute("user", userService.getUserById(id));
+     return "admin";
+    }
+    @PostMapping("/admin/{id}")
+    public String update(@ModelAttribute("user") User user,
+                         @PathVariable("id") int id,
+                         @RequestParam(value = "editRoles") String[] roles) {
+        user.setRoles(roleService.getSetOfRoles(roles));
         userService.updateUser(user);
-        return "redirect:/admin";
+        return "redirect:/admin/";
     }
 }
