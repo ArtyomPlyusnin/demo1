@@ -126,9 +126,6 @@ function editModalId(id) {
                     case 'email':
                         inputEditElement.value = userEdit.email
                         break;
-                    case 'password':
-                        inputEditElement.value = userEdit.password
-                        break;
                     case 'username':
                         inputEditElement.value = userEdit.username
                         break;
