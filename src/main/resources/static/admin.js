@@ -18,10 +18,10 @@ function getUsers() {
                  <tr>
                             <td>${showUsersKey.id} </td>
                             <td>${showUsersKey.name}</td>
-                            <td>${showUsersKey.username}</td>
+                            <td>${showUsersKey.lastName}</td>
                             <td>${showUsersKey.age}</td>
                             <td>${showUsersKey.email}</td>
-                       
+                            <td>${showUsersKey.username}</td>
                             <td><span>${nameRoles}</span></td>
                           
                             <!-- Красная Delete  синяя  Edit -->
@@ -37,18 +37,6 @@ function getUsers() {
                                     Delete
                                 </button>
                             </td>
-                               
-                            
-                           <!--<td>
-                            <button type="button" class="btn btn-primary btn-edit" onclick="editModalId(user.id})" data-bs-toggle="modal" data-bs-target="#edit" >
-                                    Edit
-                            </button>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger" onclick="delModalId(user.id})" data-bs-toggle="modal" data-bs-target="#exampleModalDel">
-                                    Delete
-                                </button>
-                            </td>-->
                         </tr>`
             }
         })
@@ -66,9 +54,12 @@ function createUser() {
     addUserForm.addEventListener('submit', (event) => {
         event.preventDefault()
         let name = addUserForm.querySelector('#name').value;
-        let username = addUserForm.querySelector('#username').value
-        let email = addUserForm.querySelector('#email').value
+        let lastName = addUserForm.querySelector('#lastName').value;
+        let age = addUserForm.querySelector('#age').value
+        let email = addUserForm.querySelector('#email').value;
         let password = addUserForm.querySelector('#password').value
+        let username = addUserForm.querySelector('#username').value
+
         let roles = () => {
             let arrayRoles = []
             let options = document.querySelector('#newRole').options
@@ -81,9 +72,11 @@ function createUser() {
         }
         let newUser = {
             name: name,
-            username: username,
+            lastName: lastName,
+            age: age,
             email: email,
             password: password,
+            username: username,
             roles: roles()
         }
         fetch(url, {
@@ -124,8 +117,8 @@ function editModalId(id) {
                     case 'name':
                         inputEditElement.value = userEdit.name
                         break;
-                    case 'username':
-                        inputEditElement.value = userEdit.username
+                    case 'lastName':
+                        inputEditElement.value = userEdit.lastName
                         break;
                     case 'age':
                         inputEditElement.value = userEdit.age
@@ -136,6 +129,9 @@ function editModalId(id) {
                     case 'password':
                         inputEditElement.value = userEdit.password
                         break;
+                    case 'username':
+                        inputEditElement.value = userEdit.username
+                        break;
                 }
 
             }
@@ -145,10 +141,11 @@ function editModalId(id) {
         event.preventDefault();
         let id = editForm.querySelector('#idEdit').value
         let name = editForm.querySelector('#nameEdit').value;
-        let username = editForm.querySelector('#usernameEdit').value;
+        let lastName = editForm.querySelector('#lastNameEdit').value;
         let age = editForm.querySelector('#ageEdit').value;
         let email = editForm.querySelector('#emailEdit').value;
         let password = editForm.querySelector('#passwordEdit').value;
+        let username = editForm.querySelector('#usernameEdit').value;
         let roles = () => {
             let arrayRoles = []
             let options = document.querySelector('#editRole').options
@@ -163,10 +160,11 @@ function editModalId(id) {
         let editUser = {
             id: id,
             name: name,
-            username: username,
+            lastName: lastName,
             age: age,
             email: email,
             password: password,
+            username: username,
             roles: roles()
         }
         fetch(url, {
@@ -202,8 +200,8 @@ function delModalId(id) {
                     case 'name':
                         inputDelElement.value = userDel.name
                         break;
-                    case 'username':
-                        inputDelElement.value = userDel.username
+                    case 'lastName':
+                        inputDelElement.value = userDel.lastName
                         break;
                     case 'age':
                         inputDelElement.value = userDel.age
@@ -213,6 +211,9 @@ function delModalId(id) {
                         break;
                     case 'password':
                         inputDelElement.value = userDel.password
+                        break;
+                    case 'username':
+                        inputDelElement.value = userDel.username
                         break;
                 }
 
