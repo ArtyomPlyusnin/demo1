@@ -19,6 +19,7 @@ function getUsers() {
                             <td>${showUsersKey.id} </td>
                             <td>${showUsersKey.name}</td>
                             <td>${showUsersKey.username}</td>
+                            <td>${showUsersKey.age}</td>
                             <td>${showUsersKey.email}</td>
                        
                             <td><span>${nameRoles}</span></td>
@@ -126,6 +127,9 @@ function editModalId(id) {
                     case 'username':
                         inputEditElement.value = userEdit.username
                         break;
+                    case 'age':
+                        inputEditElement.value = userEdit.age
+                        break;
                     case 'email':
                         inputEditElement.value = userEdit.email
                         break;
@@ -142,6 +146,7 @@ function editModalId(id) {
         let id = editForm.querySelector('#idEdit').value
         let name = editForm.querySelector('#nameEdit').value;
         let username = editForm.querySelector('#usernameEdit').value;
+        let age = editForm.querySelector('#ageEdit').value;
         let email = editForm.querySelector('#emailEdit').value;
         let password = editForm.querySelector('#passwordEdit').value;
         let roles = () => {
@@ -159,6 +164,7 @@ function editModalId(id) {
             id: id,
             name: name,
             username: username,
+            age: age,
             email: email,
             password: password,
             roles: roles()
@@ -198,6 +204,9 @@ function delModalId(id) {
                         break;
                     case 'username':
                         inputDelElement.value = userDel.username
+                        break;
+                    case 'age':
+                        inputDelElement.value = userDel.age
                         break;
                     case 'email':
                         inputDelElement.value = userDel.email
