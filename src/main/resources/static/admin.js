@@ -1,8 +1,7 @@
-//все юзеры
+
 const url = 'http://localhost:8080/api/users'
 let allUsers = document.querySelector('#allUsers')
 
-//test.innerHTML = 'test'
 function getUsers() {
     fetch(url)
         .then(response => response.json())
@@ -43,7 +42,6 @@ function getUsers() {
 }
 
 getUsers()
-//Создание юзера
 let addUserForm = document.querySelector('#createUser')
 let rolelist = [
     {id: 1, authority: 'ROLE_ADMIN'},
@@ -98,7 +96,6 @@ function createUser() {
 
 createUser()
 
-// получение юзера по user.id через onclick на кнопке и заполнение формы редактирования
 function editModalId(id) {
     let editForm = document.querySelector('#formId')
     const urlEdit = "http://localhost:8080/api/users/" + id;
@@ -133,7 +130,7 @@ function editModalId(id) {
 
             }
         });
-//отправка формы для изменения юзера
+
     editForm.addEventListener('submit', (event) => {
         event.preventDefault();
         let id = editForm.querySelector('#idEdit').value
@@ -159,7 +156,6 @@ function editModalId(id) {
             lastName: lastName,
             age: age,
             email: email,
-            password: password,
             username: username,
             roles: roles()
         }
@@ -177,7 +173,7 @@ function editModalId(id) {
         });
     });
 }
-//удаление юзера
+
 function delModalId(id) {
     let delForm = document.querySelector('#formDel');
     const urlDel = "http://localhost:8080/api/users/" + id;
@@ -205,9 +201,7 @@ function delModalId(id) {
                     case 'email':
                         inputDelElement.value = userDel.email
                         break;
-                    case 'password':
-                        inputDelElement.value = userDel.password
-                        break;
+
                     case 'username':
                         inputDelElement.value = userDel.username
                         break;
@@ -215,7 +209,7 @@ function delModalId(id) {
 
             }
         });
-//отправка формы для изменения юзера
+
     delForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
