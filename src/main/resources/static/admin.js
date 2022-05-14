@@ -141,7 +141,6 @@ function editModalId(id) {
         let lastName = editForm.querySelector('#lastNameEdit').value;
         let age = editForm.querySelector('#ageEdit').value;
         let email = editForm.querySelector('#emailEdit').value;
-        let password = editForm.querySelector('#passwordEdit').value;
         let username = editForm.querySelector('#usernameEdit').value;
         let roles = () => {
             let arrayRoles = []
