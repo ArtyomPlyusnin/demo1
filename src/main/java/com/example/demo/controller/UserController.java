@@ -3,9 +3,13 @@ package com.example.demo.controller;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Controller
 public class UserController {
@@ -18,25 +22,58 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public String printUsers(ModelMap model) {
-        model.addAttribute(userService.listUsers());
-        return "user";
+    public String printUsers(Model model) {
+        model.addAttribute("users",userService.listUsers());
+        return "index";
     }
+//    public String printUsers() {
+//        return "test";
+//    }
+
+
+//    @GetMapping("/user")
+//    public String getUser(@AuthenticationPrincipal User user, Model model) {
+//        model.addAttribute("roles", userService.getUserByEmail(user.getUsername()).getRoles());
+//        model.addAttribute("user", userService.getUserByEmail(user.getUsername()));
+//        return "index";
+//    }
+
+
 
     @PostMapping
     public String add(@ModelAttribute("user") User user,
                       @RequestParam("name") String name,
                       @RequestParam("lastName") String lastName,
-                      @RequestParam("mail") String mail) {
+                      @RequestParam("mail") String mail,
+                      @RequestParam("username") String userName,
+                      @RequestParam("password") String password) {
         userService.addUser(user);
-        return "redirect:/";
+        return "redirect:/admin/";
     }
+
+    @GetMapping("/admin/")
+        public String crud(Model model) {
+        model.addAttribute("users",userService.listUsers());
+            return "admin";
+        }
+
+    @GetMapping("/user/")
+    public String user(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", userService.getUserById(user.getId()));
+        return "user";
+    }
+
 
     @GetMapping("/{id}/remove")
     public String remove(@PathVariable("id") int id) {
         userService.removeUserById(id);
-        return "redirect:/";
+        return "redirect:/admin/";
     }
+
+    @GetMapping("/index")
+    public String index(Model model){
+        model.addAttribute(userService.listUsers());
+        return "index";}
 
     @GetMapping("/{id}/edit")
     public String edit(ModelMap model, @PathVariable("id") int id) {
@@ -47,6 +84,6 @@ public class UserController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user,  @PathVariable("id") int id) {
         userService.updateUser(user);
-        return "redirect:/";
+        return "redirect:/admin/";
     }
 }

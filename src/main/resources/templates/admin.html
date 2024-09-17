@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+    <h3>Список пользователей:</h3>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Last name</th>
+        <th>Mail</th>
+    </tr>
+    <tr th:each="usr:${users}">
+        <th th:text="${usr.getId()}"></th>
+        <th th:text="${usr.getName()}"></th>
+        <th th:text="${usr.getLastName()}"></th>
+        <th th:text="${usr.getMail()}"></th>
+        <td>
+            <a th:href="@{/{id}/edit(id=${usr.getId()})}">Edit</a>
+        </td>
+        <td>
+            <a th:href="@{/{id}/remove(id=${usr.getId()})}">Delete</a>
+        </td>
+    </tr>
+</table>
+<h3>Добавить нового пользователя:</h3>
+<form method="POST" action="/">
+
+    <p>
+        Input name:     <input name="name" type="text" size="40">
+    </p>
+    <p>
+        Input last name:<input name="lastName" type="text" size="40">
+    </p>
+    <p>
+        Input mail:      <input name="mail" type="text" size="40">
+    </p>
+    <p>
+        Input username:      <input name="username" type="text" size="40">
+    </p>
+    <p>
+        Input password:      <input name="password" type="text" size="40">
+    </p>
+
+    <p><input type="submit" value="Send">
+        <input type="reset" value="Clear"></p>
+
+</form>
+    <h3>
+    <a th:href="@{'/logout'}">Выйти</a>
+    </h3>
+</body>
+</html>
