@@ -41,4 +41,13 @@ public class UserDaoImpl implements UserDao{
     public List<User> listUsers() {
         return entityManager.createQuery("FROM User", User.class).getResultList();
     }
+
+
+    @Override
+    public User loadUserByUsername(String username) {
+        return entityManager.createQuery(
+                        "SELECT user FROM User user join fetch  user.roles WHERE user.username =:username", User.class)
+                .setParameter("username", username)
+                .getSingleResult();
+    }
 }
